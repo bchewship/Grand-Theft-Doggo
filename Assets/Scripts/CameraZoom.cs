@@ -20,10 +20,6 @@ public class CameraZoom : MonoBehaviour
     void LateUpdate()
     {
         //zooms in and out on mousewheel up/down
-        if (Input.mouseScrollDelta.y == 0)
-        {
-            return;
-        }
         targetZoom = cam.orthographicSize - Input.mouseScrollDelta.y * zoomSpeed * Time.deltaTime;
         cam.orthographicSize = Mathf.Clamp(targetZoom, minZoom, maxZoom);
     }

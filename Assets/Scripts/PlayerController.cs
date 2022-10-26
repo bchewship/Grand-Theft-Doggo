@@ -8,11 +8,13 @@ public class PlayerController : MonoBehaviour
     private GameObject cameraTarget;
 
     static float baseSpeed = 6.0f;
+    //will use multiplySpeed to change based on randomly generated players
     static float multiplySpeed = 1.0f;
     static float playerSpeed = baseSpeed * multiplySpeed;
+    //speed of rotation
     public float rotationSpeed = 180;
 
-    //affects ....jump force and gravity
+    //affects jump force and gravity
     public float jumpForce = 5.0f;
     public float gravityModifier = 1.0f;
     
@@ -21,9 +23,6 @@ public class PlayerController : MonoBehaviour
 
     //animations
     private Animator playerAnimation;
-
-
-    //particles
 
     //sounds
     public AudioClip[] barkSounds;
@@ -40,7 +39,6 @@ public class PlayerController : MonoBehaviour
         //get animator/sounds
         playerAnimation = GetComponent<Animator>();
         playerAudio = GetComponent<AudioSource>();
-
     }
 
     // Update is called once per frame
@@ -48,7 +46,6 @@ public class PlayerController : MonoBehaviour
     {
         Bark();
         Move();
-
     }
 
     public void Move()
@@ -59,10 +56,6 @@ public class PlayerController : MonoBehaviour
 
         //moves in direction character is facing
         transform.Translate(Vector3.forward * Time.deltaTime * playerSpeed * verticalInput);
-
-        //plays animation when moving
-        //playerAnimation.SetFloat("Speed_f", verticalInput);
-
         //rotates character on left/right
         transform.Rotate(Vector3.up * horizontalInput * rotationSpeed * Time.deltaTime);
         
@@ -91,7 +84,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             playerSpeed = 6.0f;
-            playerAnimation.SetFloat("Speed_f", verticalInput *0.7f);
+            playerAnimation.SetFloat("Speed_f", verticalInput * 0.7f);
         }
 
     }
