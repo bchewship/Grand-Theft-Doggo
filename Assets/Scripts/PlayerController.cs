@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     //affects jump force and gravity
     public float jumpForce = 5.0f;
     public float gravityModifier = 1.0f;
+    //how far player is pushed back when hit by enemy -- higher = lighter
+    public float lightness = 10.0f;
     
     //on ground
     private bool isOnGround = true;
@@ -107,9 +109,12 @@ public class PlayerController : MonoBehaviour
             isOnGround = true;
             
         }
-        else if (collision.gameObject.CompareTag("Obstacle"))
+        else if (collision.gameObject.CompareTag("Enemy"))
         {
-
+            Rigidbody enemyRigidbody = collision.gameObject.GetComponent<Rigidbody>();
+            Vector3 pushPlayer = (playerRb.transform.position - enemyRigidbody.transform.position);
+            //push player away from enemy
+            playerRb.AddForce(pushPlayer * lightness, ForceMode.Impulse);
         }
     }
 }
