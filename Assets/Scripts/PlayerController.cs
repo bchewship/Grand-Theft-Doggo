@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody playerRb;
     private GameObject cameraTarget;
+    private GameManager gameManager;
 
     static float baseSpeed = 6.0f;
     //will use multiplySpeed to change based on randomly generated players
@@ -23,8 +24,9 @@ public class PlayerController : MonoBehaviour
     //on ground
     private bool isOnGround = true;
 
-    //animations
+    //animations/particles
     private Animator playerAnimation;
+    public ParticleSystem damageParticle;
 
     //sounds
     public AudioClip[] barkSounds;
@@ -34,13 +36,15 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        playerRb = GetComponent<Rigidbody>();
+        playerRb = GameObject.Find("Player").GetComponent<Rigidbody>();
         cameraTarget = GameObject.Find("CameraTarget");
         //modifies gravity
         Physics.gravity *= gravityModifier;
         //get animator/sounds
         playerAnimation = GetComponent<Animator>();
         playerAudio = GetComponent<AudioSource>();
+
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -48,6 +52,7 @@ public class PlayerController : MonoBehaviour
     {
         Bark();
         Move();
+        Pause();
     }
 
     public void Move()
@@ -55,11 +60,13 @@ public class PlayerController : MonoBehaviour
         //gets inputs for horizontal and vertical
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
+        
 
         //moves in direction character is facing
         transform.Translate(Vector3.forward * Time.deltaTime * playerSpeed * verticalInput);
         //rotates character on left/right
         transform.Rotate(Vector3.up * horizontalInput * rotationSpeed * Time.deltaTime);
+        
         
 
         //can only jump while on ground
@@ -113,8 +120,18 @@ public class PlayerController : MonoBehaviour
         {
             Rigidbody enemyRigidbody = collision.gameObject.GetComponent<Rigidbody>();
             Vector3 pushPlayer = (playerRb.transform.position - enemyRigidbody.transform.position);
+            damageParticle.Play();
             //push player away from enemy
             playerRb.AddForce(pushPlayer * lightness, ForceMode.Impulse);
+            gameManager.UpdateHealth(-1);
+        }
+    }
+
+    private void Pause()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            gameManager.PauseGame();
         }
     }
 }
