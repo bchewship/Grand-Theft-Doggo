@@ -13,16 +13,20 @@ public class HumanEnemy : MonoBehaviour
 
     private Animator enemyAnimation;
 
+    private Renderer m_renderer;
+
     void Start()
     {
         enemyRb = GetComponent<Rigidbody>();
         player = GameObject.Find("Player");
         enemyAnimation = GetComponent<Animator>();
+        m_renderer = GetComponent<Renderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
+       
         Vector3 lookDirection = (player.transform.position - transform.position).normalized;
         
 
@@ -54,4 +58,5 @@ public class HumanEnemy : MonoBehaviour
         enemyRb.transform.position += transform.forward * speed * Time.deltaTime * 0.3f;
         enemyAnimation.SetFloat("Speed_f", 0.3f);
     }
+
 }

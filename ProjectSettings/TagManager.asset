@@ -8,6 +8,9 @@ TagManager:
   - Enemy
   - Obstacle
   - Upgrade
+  - FxTemporaire
+  - CoinPickup
+  - Neutral
   layers:
   - Default
   - TransparentFX

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
     private int currency;
     private int health;
+    private int maxHealth;
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI currencyText;
 
@@ -20,10 +21,12 @@ public class GameManager : MonoBehaviour
     public GameObject titleScreen;
     public GameObject pauseScreen;
 
-    public List<GameObject> enemies;
+    public GameObject[] player;
+    private int index;
 
     void Start()
     {
+        //pauses time until a button is clicked on title screen
         Time.timeScale = 0;
     }
 
@@ -32,42 +35,40 @@ public class GameManager : MonoBehaviour
     {
         
     }
-    //spawns enemies while game is running
-    IEnumerable SpawnEnemy()
-    {
-        int enemyCount = 0;
-        if(enemyCount <= 5)
-        {
-            yield return new WaitForSeconds(5);
-            int index = Random.Range(0, enemies.Count);
-            Instantiate(enemies[index]);
-        }
-    }
-
+    
     public void UpdateCurrency(int currencyToAdd)
     {
-        //add currency here
-        currency += currency;
+        currency += currencyToAdd;
         currencyText.text = ": " + currency;
     }
 
     public void UpdateHealth(int healthToAdd)
     {
-        //add health here
-        health += healthToAdd;
-        healthText.text = ": " + health;
+        healthText.text = ": " + health + "/" + maxHealth;
+        if(health < maxHealth)
+        {
+            health += healthToAdd;
+        }
+        else if(health >= maxHealth)
+        {
+            health = maxHealth;
+            health += healthToAdd;
+        }
         if(health <= 0)
         {
             GameOver();
+            Debug.Log("byby");
         }
     }
 
     public void StartGame()
     {
+        GeneratePlayer();
         isGameActive = true;
         Time.timeScale = 1;
         currency = 0;
-        health = 1;
+        health = 2;
+        maxHealth = 2;
         titleScreen.gameObject.SetActive(false);
         UpdateCurrency(0);
         UpdateHealth(0);
@@ -98,4 +99,18 @@ public class GameManager : MonoBehaviour
         titleScreen.gameObject.SetActive(true);
         pauseScreen.gameObject.SetActive(false);
     }
+    
+    void GeneratePlayer()
+    {
+        //creates a random player character
+        index = Random.Range(0, player.Length);
+        player[index].SetActive(true);
+    }
+
+    public void UngeneratePlayer()
+    {
+        //unselects the random player character
+        player[index].SetActive(false);
+    }
+        
 }

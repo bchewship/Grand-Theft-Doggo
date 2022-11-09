@@ -125,6 +125,19 @@ public class PlayerController : MonoBehaviour
             playerRb.AddForce(pushPlayer * lightness, ForceMode.Impulse);
             gameManager.UpdateHealth(-1);
         }
+        else if (collision.gameObject.CompareTag("CoinPickup"))
+        {
+            //gives +1 coin and +1 health when picking up coin
+            gameManager.UpdateCurrency(1);
+            gameManager.UpdateHealth(1);
+            Destroy(collision.gameObject);
+        }
+        else if(collision.gameObject.CompareTag("Upgrade"))
+        {
+            //code for upgrades goes here
+            Destroy(collision.gameObject);
+
+        }
     }
 
     private void Pause()

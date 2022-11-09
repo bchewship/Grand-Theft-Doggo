@@ -31,18 +31,16 @@ public class PauseScreen : MonoBehaviour
     void Resume()
     {
         gameManager.ResumeGame();
-        Debug.Log("resume!");
     }
 
     void ReturnToMenu()
     {
         gameManager.TitleMenu();
-        Debug.Log("menu!");
+        gameManager.UngeneratePlayer();
     }
 
     void ExitGame()
     {
         Application.Quit();
-        Debug.Log("bye!");
     }
 }

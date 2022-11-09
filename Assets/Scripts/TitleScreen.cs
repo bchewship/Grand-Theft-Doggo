@@ -37,7 +37,7 @@ public class TitleScreen : MonoBehaviour
 
     void ContinueGame()
     {
-
+        //continue for data persistence here
     }
 
     void ExitGame()
