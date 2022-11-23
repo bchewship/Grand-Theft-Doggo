@@ -34,8 +34,10 @@ public class HumanEnemy : MonoBehaviour
         if (Vector3.Distance(player.transform.position, transform.position) <= detectionRange)
         {
             StopCoroutine(MovementRandom());
+
             enemyRb.transform.LookAt(player.transform.position);
-            enemyRb.transform.Translate(lookDirection * speed * Time.deltaTime);
+            enemyRb.transform.Translate(Vector3.forward * speed * Time.deltaTime);
+
             enemyAnimation.SetFloat("Speed_f", 0.7f);
         }
         else if((Vector3.Distance(player.transform.position, transform.position) >= detectionRange))

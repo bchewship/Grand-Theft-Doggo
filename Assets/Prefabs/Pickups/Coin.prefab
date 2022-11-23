@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 801493638083841629}
   - component: {fileID: 801493638081842321}
   - component: {fileID: 764406108}
+  - component: {fileID: -1097798039796266489}
   m_Layer: 0
   m_Name: Coin
   m_TagString: CoinPickup
@@ -114,3 +115,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &-1097798039796266489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801493638081878269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 327c35f4784dcbe4e8eabd89eb57cfe5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

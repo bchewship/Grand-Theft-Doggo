@@ -11,6 +11,8 @@ TagManager:
   - FxTemporaire
   - CoinPickup
   - Neutral
+  - Building
+  - Goal
   layers:
   - Default
   - TransparentFX

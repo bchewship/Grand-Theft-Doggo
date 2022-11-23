@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
         //gets inputs for horizontal and vertical
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-        
+
 
         //moves in direction character is facing
         transform.Translate(Vector3.forward * Time.deltaTime * playerSpeed * verticalInput);
@@ -125,6 +125,13 @@ public class PlayerController : MonoBehaviour
             playerRb.AddForce(pushPlayer * lightness, ForceMode.Impulse);
             gameManager.UpdateHealth(-1);
         }
+        else if (collision.gameObject.CompareTag("Neutral"))
+        {
+            Rigidbody neutralRb = collision.gameObject.GetComponent<Rigidbody>();
+            Vector3 pushNeutral = neutralRb.transform.position - playerRb.transform.position;
+            damageParticle.Play();
+            neutralRb.AddForce(pushNeutral * lightness * 2, ForceMode.Impulse);
+        }
         else if (collision.gameObject.CompareTag("CoinPickup"))
         {
             //gives +1 coin and +1 health when picking up coin
@@ -137,6 +144,14 @@ public class PlayerController : MonoBehaviour
             //code for upgrades goes here
             Destroy(collision.gameObject);
 
+        }
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        }
+        if (collision.gameObject.CompareTag("Building"))
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         }
     }
 

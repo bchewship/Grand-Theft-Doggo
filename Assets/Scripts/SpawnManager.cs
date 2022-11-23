@@ -11,7 +11,7 @@ public class SpawnManager : MonoBehaviour
     private int neutralCount;
     private int coinCount;
     public GameObject coinPrefab;
-
+    
 
     void Start()
     {
@@ -24,8 +24,9 @@ public class SpawnManager : MonoBehaviour
 
         enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
         neutralCount = GameObject.FindGameObjectsWithTag("Neutral").Length;
+        coinCount = GameObject.FindGameObjectsWithTag("CoinPickup").Length;
         //spawns enemies/others/coins if coint below number
-        if(enemyCount < 3)
+        if (enemyCount < 3)
         {
             SpawnEnemies();
         }
@@ -33,7 +34,6 @@ public class SpawnManager : MonoBehaviour
         {
             SpawnNeutralEntities();
         }
-        coinCount = GameObject.FindGameObjectsWithTag("CoinPickup").Length;
         if(coinCount < 10)
         {
             SpawnCoins();
@@ -45,14 +45,18 @@ public class SpawnManager : MonoBehaviour
     {
         //supposed to spawn outside camera range
         //0 to 1 is within view range
-        float random = Random.Range(-2.0f, 2.0f);
-        if(random >=0 && random <= 1)
+        float randomX = Random.Range(-2.0f, 2.0f);
+        float randomY = Random.Range(-2.0f, 2.0f);
+        if (randomX >= 0 && randomX <= 1)
         {
-            random -= 1;
+            randomX -= 1;
         }
-        
-        Vector3 randPos = Camera.main.ViewportToWorldPoint(new Vector3(random, 0f, 0f));
+        if (randomY >= 0 && randomY <= 1)
+        {
+            randomY -= 1;
+        }
 
+        Vector3 randPos = Camera.main.ViewportToWorldPoint(new Vector3(randomX, randomY, 0f));
         return randPos;
     }
 
@@ -71,5 +75,5 @@ public class SpawnManager : MonoBehaviour
     {
         Instantiate(coinPrefab, GenerateSpawnLocation(), coinPrefab.transform.rotation);
     }
-        
+
 }

@@ -29,9 +29,11 @@ public class Flee : MonoBehaviour
         if (Vector3.Distance(player.transform.position, transform.position) <= detectionRange)
         {
             StopCoroutine(MovementRandom());
+            //causes rabbit to look at player location and then rotate to face away from the player
             rabbitRb.transform.LookAt(player.transform.position);
             rabbitRb.transform.Rotate(0, 180, 0);
-            rabbitRb.transform.Translate(lookDirection * speed * Time.deltaTime);
+            //moves rabbit 
+            rabbitRb.transform.Translate(Vector3.forward * speed * Time.deltaTime);
             
         }
         else if ((Vector3.Distance(player.transform.position, transform.position) >= detectionRange))

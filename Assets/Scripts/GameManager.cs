@@ -13,16 +13,16 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI currencyText;
 
-    public TextMeshProUGUI gameOverText;
-    public Button mainMenuButton;
-
     public bool isGameActive;
 
+    public GameObject gameOverScreen;
     public GameObject titleScreen;
     public GameObject pauseScreen;
 
     public GameObject[] player;
     private int index;
+
+    Vector3 startingPos;
 
     void Start()
     {
@@ -44,21 +44,26 @@ public class GameManager : MonoBehaviour
 
     public void UpdateHealth(int healthToAdd)
     {
-        healthText.text = ": " + health + "/" + maxHealth;
-        if(health < maxHealth)
-        {
-            health += healthToAdd;
-        }
-        else if(health >= maxHealth)
-        {
-            health = maxHealth;
-            health += healthToAdd;
-        }
+        //if (health < maxHealth)
+        //{
+        //    health += healthToAdd;
+        //}
+        //else if(health >= maxHealth)
+        //{
+        //    health = maxHealth;
+        //    health += healthToAdd;
+        //}
+
+        health += healthToAdd;
+        
         if(health <= 0)
         {
             GameOver();
-            Debug.Log("byby");
         }
+        //fixes health showing quantities above maxHealth
+        health = Mathf.Clamp(health, 0, maxHealth);
+
+        healthText.text = ": " + health + "/" + maxHealth;
     }
 
     public void StartGame()
@@ -76,9 +81,9 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        gameOverText.gameObject.SetActive(true);
+        Time.timeScale = 0;
         isGameActive = false;
-        mainMenuButton.gameObject.SetActive(true);
+        gameOverScreen.gameObject.SetActive(true);
     }
 
     public void PauseGame()
@@ -98,6 +103,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         titleScreen.gameObject.SetActive(true);
         pauseScreen.gameObject.SetActive(false);
+        gameOverScreen.gameObject.SetActive(false);
     }
     
     void GeneratePlayer()
@@ -105,10 +111,12 @@ public class GameManager : MonoBehaviour
         //creates a random player character
         index = Random.Range(0, player.Length);
         player[index].SetActive(true);
+        startingPos = player[index].transform.position;
     }
 
     public void UngeneratePlayer()
     {
+        player[index].transform.position = startingPos;
         //unselects the random player character
         player[index].SetActive(false);
     }
