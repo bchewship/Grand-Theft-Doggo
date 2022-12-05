@@ -36,6 +36,7 @@ public class PauseScreen : MonoBehaviour
     void ReturnToMenu()
     {
         gameManager.TitleMenu();
+        gameManager.Save();
         gameManager.UngeneratePlayer();
     }
 

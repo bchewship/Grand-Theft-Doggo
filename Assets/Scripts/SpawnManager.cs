@@ -6,12 +6,13 @@ public class SpawnManager : MonoBehaviour
 {
     public GameObject[] enemyPrefabs;
     public GameObject[] neutralPrefabs;
-    private float spawnRange;
     private int enemyCount;
     private int neutralCount;
     private int coinCount;
     public GameObject coinPrefab;
-    
+
+    private GameObject player;
+
 
     void Start()
     {
@@ -25,16 +26,17 @@ public class SpawnManager : MonoBehaviour
         enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
         neutralCount = GameObject.FindGameObjectsWithTag("Neutral").Length;
         coinCount = GameObject.FindGameObjectsWithTag("CoinPickup").Length;
+        player = GameObject.Find("Player");
         //spawns enemies/others/coins if coint below number
-        if (enemyCount < 3)
+        if (enemyCount < 10)
         {
             SpawnEnemies();
         }
-        if(neutralCount < 5)
+        if(neutralCount < 15)
         {
             SpawnNeutralEntities();
         }
-        if(coinCount < 10)
+        if(coinCount < 5)
         {
             SpawnCoins();
         }
@@ -43,22 +45,41 @@ public class SpawnManager : MonoBehaviour
 
     private Vector3 GenerateSpawnLocation()
     {
-        //supposed to spawn outside camera range
-        //0 to 1 is within view range
-        float randomX = Random.Range(-2.0f, 2.0f);
-        float randomY = Random.Range(-2.0f, 2.0f);
-        if (randomX >= 0 && randomX <= 1)
+        float randomX = Random.Range(-100.0f, 100.0f);
+        float randomZ = Random.Range(-100.0f, 100.0f);
+        int rand = Random.Range(0, 2);
+        //if spawn would have been within view range, then randomly decide to move spawn point + or -
+        if (randomX >= -20 && randomX <= 20)
         {
-            randomX -= 1;
+            if (rand == 0)
+            {
+                randomX -= 40;
+            }
+            else if (rand == 1)
+            {
+                randomX += 40;
+            }
+
         }
-        if (randomY >= 0 && randomY <= 1)
+        if (randomZ >= -20 && randomZ <= 20)
         {
-            randomY -= 1;
+            if (rand == 0)
+            {
+                randomZ -= 40;
+            }
+            else if (rand == 1)
+            {
+                randomZ += 40;
+            }
+
         }
 
-        Vector3 randPos = Camera.main.ViewportToWorldPoint(new Vector3(randomX, randomY, 0f));
+        //Vector3 randPos = Camera.main.ViewportToWorldPoint(new Vector3(randomX, randomZ, 1f));
+        //changed to spawn based on player location vs camera location, since it would spawn high in the air
+        Vector3 randPos = new Vector3(player.transform.position.x + randomX, 1f, player.transform.position.z + randomZ);
         return randPos;
     }
+
 
     void SpawnEnemies()
     {

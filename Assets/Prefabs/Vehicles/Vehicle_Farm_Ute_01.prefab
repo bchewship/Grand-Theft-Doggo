@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 2047157541283745716}
   m_Layer: 0
   m_Name: Vehicle_Farm_Ute_01
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -360,7 +360,7 @@ Transform:
   m_GameObject: {fileID: 2907730060739795167}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1758.3243, y: 0.00024300814, z: -1391.0278}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2907730060739429617}

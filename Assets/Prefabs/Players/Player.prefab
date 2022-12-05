@@ -244,6 +244,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 06bfcb9bf0cdaef43aac4460dbc7a381, type: 3}
   - {fileID: 8300000, guid: 73b3ceeabec91374fb21b56e90d8c9d4, type: 3}
   - {fileID: 8300000, guid: a913ff887a57d5d43863e134fd017ca7, type: 3}
+  coin: {fileID: 0}
 --- !u!23 &7347212567657563518
 MeshRenderer:
   m_ObjectHideFlags: 0

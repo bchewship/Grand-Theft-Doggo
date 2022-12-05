@@ -16,7 +16,7 @@ public class TitleScreen : MonoBehaviour
         exitButton = GameObject.Find("ExitButton").GetComponent<Button>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
-        //continueButton.onClick.AddListener(ContinueGame);
+        continueButton.onClick.AddListener(ContinueGame);
         //quits -- does nothing in the editor
         exitButton.onClick.AddListener(ExitGame);
     }
@@ -29,7 +29,7 @@ public class TitleScreen : MonoBehaviour
 
     void ContinueGame()
     {
-        //continue for data persistence here
+        gameManager.Load();
     }
 
     void ExitGame()

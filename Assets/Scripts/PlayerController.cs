@@ -34,8 +34,12 @@ public class PlayerController : MonoBehaviour
     //make the player an audio source
     private AudioSource playerAudio;
 
+    public GameObject coin;
+
     void Start()
     {
+        DontDestroyOnLoad(gameObject);
+
         playerRb = GameObject.Find("Player").GetComponent<Rigidbody>();
         cameraTarget = GameObject.Find("CameraTarget");
         //modifies gravity
@@ -53,6 +57,11 @@ public class PlayerController : MonoBehaviour
         Bark();
         Move();
         Pause();
+        //if player somehow gets underground, will place them back above ground
+        if (playerRb.position.y < -3)
+        {
+            playerRb.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z);
+        }
     }
 
     public void Move()
@@ -61,13 +70,15 @@ public class PlayerController : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
+        Vector3 moveInput = new Vector3(horizontalInput, 0, verticalInput);
 
         //moves in direction character is facing
         transform.Translate(Vector3.forward * Time.deltaTime * playerSpeed * verticalInput);
+        //playerRb.MovePosition(transform.position + moveInput * Time.deltaTime * playerSpeed);
+
         //rotates character on left/right
         transform.Rotate(Vector3.up * horizontalInput * rotationSpeed * Time.deltaTime);
-        
-        
+         
 
         //can only jump while on ground
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
@@ -95,6 +106,7 @@ public class PlayerController : MonoBehaviour
             playerSpeed = 6.0f;
             playerAnimation.SetFloat("Speed_f", verticalInput * 0.7f);
         }
+        
 
     }
 
@@ -131,6 +143,9 @@ public class PlayerController : MonoBehaviour
             Vector3 pushNeutral = neutralRb.transform.position - playerRb.transform.position;
             damageParticle.Play();
             neutralRb.AddForce(pushNeutral * lightness * 2, ForceMode.Impulse);
+            //makes bunny throw a coin up when collided
+            var dropCoin = Instantiate(coin, new Vector3(1,1,1) + neutralRb.transform.position, neutralRb.rotation);
+            dropCoin.GetComponent<Rigidbody>().AddForce(new Vector3(0,5f,0) * 3, ForceMode.Impulse);
         }
         else if (collision.gameObject.CompareTag("CoinPickup"))
         {
@@ -147,11 +162,11 @@ public class PlayerController : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Obstacle"))
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            playerRb.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         }
         if (collision.gameObject.CompareTag("Building"))
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            playerRb.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         }
     }
 

@@ -26,13 +26,13 @@ public class Despawn : MonoBehaviour
         if (inSight == false && !m_renderer.isVisible)
         {
             StartCoroutine("TimeToDespawn");
-            Debug.Log("bye");
+            //Debug.Log("bye");
         }
 
         //if the object is on screen, it won't be destoyed, and it won't be destroyed if it leaves the screen and comes back
         if (m_renderer.isVisible)
         {
-            Debug.Log("hi");
+            //Debug.Log("hi");
             inSight = true;
             StopCoroutine("TimeToDespawn");
         }
